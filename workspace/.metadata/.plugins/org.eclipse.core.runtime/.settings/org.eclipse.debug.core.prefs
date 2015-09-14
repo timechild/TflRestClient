@@ -1,0 +1,2 @@
+eclipse.preferences.version=1
+prefWatchExpressions=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\n<watchExpressions>\n<expression enabled\="true" text\="Integer.getInteger(input)\=\=null"/>\n<expression enabled\="true" text\="parse.parseStringToInt(fromStr)"/>\n</watchExpressions>\n

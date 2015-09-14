@@ -1,0 +1,102 @@
+package org.disruptiontables.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.disruptiontables.dao.Branch;
+import org.disruptiontables.dao.Station;
+import org.disruptiontables.dao.WriterDao;
+
+public class StationService {
+
+	public List<Station> getAllStations(){
+		WriterDao dao = new WriterDao();
+		List<Station> stationList = new ArrayList<>();
+		
+		try{
+			dao.setDBConnection();
+			stationList = dao.getAllStations();
+		}
+		catch(Exception e){
+			System.out.println("StationService error: "+e.toString());
+		}
+		return stationList;
+	}
+	
+	public List<Station> getAllStations(int line){
+		WriterDao dao = new WriterDao();
+		List<Station> stationList = new ArrayList<>();
+		
+		try{
+			dao.setDBConnection();
+			stationList = dao.getAllStations();
+		}
+		catch(Exception e){
+			System.out.println("StationService error: "+e.toString());
+		}
+		return stationList;
+	}
+	
+	
+	public List<Station> getSortedStations(int from, int to, int line){
+		
+		System.out.println("sorted stations");
+		
+		
+		/*//try to parse input String to integer for query
+		 * if(Integer.parseInt(to))
+				int tooo = Integer.parseInt(to); 
+			else
+				int tooo = ss.getStationId(to);
+			
+		 * */
+		
+		
+		
+		List<Station> stationList = new ArrayList<Station>();
+		List<Branch> branchList = new ArrayList<Branch>();
+		
+		System.out.println("sorted stations");
+		try{
+			WriterDao dao = new WriterDao();
+			dao.setDBConnection();
+		
+			//get line branches form the DB
+			branchList = dao.getAllLineBranches(line);
+			
+			//sort branches of the line from start to end
+			LineService ls = new LineService();
+			branchList = ls.sortBranches(branchList, from, to);
+			
+			//create new connection for new DB query
+			dao = new WriterDao();
+			dao.setDBConnection();
+			
+			//get list of stations based start and end location
+			stationList = dao.getSortedStations(branchList);
+			//dao.setDBConnection();
+			//stationList = dao.getAllStations();
+		}
+		catch(Exception e){
+			System.out.println("StationService error: "+e.toString());
+		}
+		return stationList;
+	}
+	
+	
+	public List<Station> getStationId(String stationName){
+		WriterDao dao = new WriterDao();
+		List<Station> stationList = new ArrayList<>();
+		
+		try{
+			dao.setDBConnection();
+			stationList = dao.getAllStations();
+		}
+		catch(Exception e){
+			System.out.println("StationService error: "+e.toString());
+		}
+		return stationList;
+	}
+	
+	
+}

@@ -1,0 +1,14 @@
+package org.disruptiontables.util;
+
+public class ParseData {
+	
+	public String parseParams(String input){
+		
+		if(input=="")
+			return null;
+		
+		
+	}
+	
+
+}
