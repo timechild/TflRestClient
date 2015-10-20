@@ -3,3 +3,5 @@ The general conditions are as following
 2. all libs used here have their own conditions
 3. scope of this document only
 
+
+
