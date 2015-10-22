@@ -11,6 +11,9 @@ import org.disruptiontables.dao.WriterDao;
 
 public class LineService {
 	
+	/**
+	 * Gets all lines
+	 * */
 	public List<Line> getAllLines(){
 		
 		WriterDao dao = new WriterDao();
@@ -27,7 +30,9 @@ public class LineService {
 		return linesLst;
 	}
 	
-	//get ordered line based on selected branches
+	/**
+	 * Get ordered line based on selected branches
+	 * */
 	public List<Branch> getAllLineBranches(int lineId){
 			
 			WriterDao dao = new WriterDao();
@@ -44,6 +49,25 @@ public class LineService {
 			
 		
 			return branchList;
+	}
+	
+	/**
+	 * The method returns line based on ID
+	 * */
+	public Line getLine(int id) {
+		
+			WriterDao dao = new WriterDao();
+			Line line = new Line();
+			
+			try{
+				dao.setDBConnection();
+				line = dao.getLine(id);
+			}
+			catch (Exception e)
+			{
+				System.out.println(e.toString());
+			}
+			return line;
 	}
 	
 	/**
@@ -67,57 +91,15 @@ public class LineService {
 		branchList = sortBranches(branchList, from, to);
 		return branchList;
 	}
-	/*
-	private List<Branch> sortBranches(List<Branch> listUnsorted, int from, int to){
-		
-		Branch branchFrom;
-		Branch temp;
-		List<Branch> listSorted = new ArrayList<Branch>();
-		
-		//find initial 'from' branch
-		for(int i=0;i<listUnsorted.size();i++){
-			if(from==listUnsorted.get(i).getId()){
-				branchFrom = listUnsorted.get(i);
-				listSorted.add(branchFrom);
-				break;}
-		}
-		
-		
-		//construct right branch list order
-		for(int i=0; i<listUnsorted.size(); i++){
-			//we already have initial element, we're getting nextId for the following branch
-			int next = listSorted.get(i).getNextId();
-			temp= new Branch();
-			
-			//we get next branch item
-			if(next!=0){
-				temp=getNextBranch(listUnsorted, next, i);
-				//temp=listUnsorted.get(next-1);
-				listSorted.add(temp);
-				//continue;
-			}
-			else
-				break;
-			
-		}
-		return listSorted;
-	}*/
-	
-	private Branch getNextBranch(List<Branch> listUnsorted, int next, int current){
-		for(int i=current; i<listUnsorted.size()-1;i++){
-			//we check if there's multiple branching from start to finish
-			if(listUnsorted.get(i).getId()!=listUnsorted.get(i+1).getId()){
-				if(listUnsorted.get(i).getId()==next)
-					return listUnsorted.get(i);}
-			//if there's multiple branching we return a special branch
-			else{
-				return new Branch(-1,"",-1); }
-		}
-		return null;
-	}
 	
 	
-	public List<Branch> sortBranches(List<Branch> listUnsorted, int from, int to){
+	//TO-DO: this will be changed with tree search algorithm or NN search algorithm
+	//TO-DO: create both left & right movement in the same go: from 2 to 4 - Picadilly
+	//TO-DO: move this method to separate class in org.distuptiontables.util package
+	/**
+	 * Method returns a sorted list of branches
+	 * */
+	public List<Branch> sortBranches(List<Branch> listUnsorted, int from, int to) throws NullPointerException{
 			
 			//from=2;
 			//to=5;
@@ -127,8 +109,7 @@ public class LineService {
 			List<Branch> listSortedFrom = new ArrayList<Branch>();
 			List<Branch> listSortedTo = new ArrayList<Branch>();
 			
-			//find initial 'from' branch
-			//TO-DO size: it desn't always apply: piccadilly 2 to 3  unsorted is list of all junctions not just mine
+			//find initial 'from' branch and 'to' branches
 			for(int i=0;i<listUnsorted.size();i++){
 				
 				//search for 'from' branch from the front of the list
@@ -143,13 +124,14 @@ public class LineService {
 					listSortedTo.add(branchTo);
 				}
 				
+				//end loop when we have both from and to branches
 				if(branchTo!=null&&branchFrom!=null)
 					break;
 				
 			}
 			
-			//get branch id by 
-			//TO DO: je to potrebno? ali lahko damo p2p 
+			//if from and to destinations are on the same branch, we don't to search for connection
+			//TO DO: is it necessary, we can optimize this
 			if(branchFrom.getId()==branchTo.getId()){
 				List<Branch> list = new ArrayList<Branch>();
 				list.add(branchFrom);
@@ -158,6 +140,7 @@ public class LineService {
 			
 			//construct right branch list order
 			for(int i=0; i<=listUnsorted.size()/2; i++){
+				
 				//we already have initial element, we're getting nextId for the following branch
 				int next = listSortedFrom.get((listSortedFrom.size()-1)).getNextId();
 				int previous = listUnsorted.size()-i-1;
@@ -167,7 +150,7 @@ public class LineService {
 				if(next!=branchTo.getId()){
 					temp = getNextBranch(listUnsorted, next, i);
 						
-						//if thre's multiple branching from left (from) to right (to) we return special Branch obj and we stop adding to the list
+						//if thre's multiple branching from left (from) to right (to) we return special Branch obj (-1) and we stop adding to the list
 						if((temp.getNextId()!=-1)){
 							branchFrom=temp;
 							listSortedFrom.add(branchFrom);	
@@ -195,26 +178,21 @@ public class LineService {
 			return listSorted;
 		}
 		
-	
-	
-	/**
-	 * The method returns line based on ID
-	 * */
-	public Line getLine(int id) {
-		
-			WriterDao dao = new WriterDao();
-			Line line = new Line();
-			
-			try{
-				dao.setDBConnection();
-				line = dao.getLine(id);
-			}
-			catch (Exception e)
-			{
-				System.out.println(e.toString());
-			}
-			return line;
+	//gets next branch based on our collection
+	private Branch getNextBranch(List<Branch> listUnsorted, int next, int current){
+		for(int i=current; i<listUnsorted.size()-1;i++){
+			//check if there's multiple branching from start to finish
+			if(listUnsorted.get(i).getId()!=listUnsorted.get(i+1).getId()){
+				if(listUnsorted.get(i).getId()==next)
+					return listUnsorted.get(i);}
+			//if there's multiple branching we return a special branch
+			else{
+				return new Branch(-1,"",-1); }
+		}
+		return null;
 	}
+	
+	
 	
 
 }
