@@ -22,7 +22,8 @@ public class WriterDao {
 		  private PreparedStatement preparedStatement = null;
 		  private ResultSet resultSet = null;
 
-		  //to-do: move connection to singelton class or get connections pool
+		  //TODO: move connection to singelton class or get connections pool
+		  //TODO: http://www.tutorialspoint.com/javaexamples/jdbc_executebatch.htm add batch statements
 		  public void setDBConnection()
 		  {
 			  try {
@@ -36,7 +37,6 @@ public class WriterDao {
 			  	catch (Exception e) {
 			     System.out.println("db set connection problem: "+ e.toString());
 			    } 
-			  	
 		  }
 		  
 		  
@@ -254,7 +254,7 @@ public class WriterDao {
 			  return null;
 		  }
 		  
-		  
+		  //TODO: cleanup this mess with connection lifecycle
 		  public int getBranchByStationId(int stationId){
 			  try{
 				  

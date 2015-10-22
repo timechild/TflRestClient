@@ -46,8 +46,6 @@ public class LineService {
 			{
 				System.out.println(e.toString());
 			}
-			
-		
 			return branchList;
 	}
 	
@@ -93,9 +91,9 @@ public class LineService {
 	}
 	
 	
-	//TO-DO: this will be changed with tree search algorithm or NN search algorithm
-	//TO-DO: create both left & right movement in the same go: from 2 to 4 - Picadilly
-	//TO-DO: move this method to separate class in org.distuptiontables.util package
+	//TODO: this will be changed with tree search algorithm or NN search algorithm
+	//TODO: create both left & right movement in the same go: from 2 to 4 - Picadilly
+	//TODO: move this method to separate class in org.distuptiontables.util package
 	/**
 	 * Method returns a sorted list of branches
 	 * */

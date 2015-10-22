@@ -11,6 +11,9 @@ import org.disruptiontables.util.ParseData;
 
 public class StationService {
 
+	/**
+	 * Method returns list of all stations
+	 * */
 	public List<Station> getAllStations(){
 		WriterDao dao = new WriterDao();
 		List<Station> stationList = new ArrayList<>();
@@ -25,6 +28,10 @@ public class StationService {
 		return stationList;
 	}
 	
+	
+	/**
+	 * Method returns list of all stations for a line
+	 * */
 	public List<Station> getAllStations(int line){
 		WriterDao dao = new WriterDao();
 		List<Station> stationList = new ArrayList<>();
@@ -39,8 +46,8 @@ public class StationService {
 		return stationList;
 	}
 	
-	/*
-	 * 
+	/**
+	 * Method returns a sorted list of stations
 	 * */
 	public List<Station> getSortedStations(String fromStr, String toStr, String lineStr){
 		
