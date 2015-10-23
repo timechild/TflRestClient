@@ -2,3 +2,4 @@
 
 #no class files
 *.class
+*.gitignore
