@@ -34,6 +34,7 @@
 			<version>1.9</version>
 		</dependency>
 		
+		<!-- this will be replaced by shiro -->
 		<dependency>
 		  <groupId>org.secnod.shiro</groupId>
 		  <artifactId>shiro-jersey</artifactId>
