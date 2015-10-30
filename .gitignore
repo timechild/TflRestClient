@@ -2,5 +2,5 @@
 target
 
 #no class files
-*.class
-*.classpath
+.class
+.classpath
