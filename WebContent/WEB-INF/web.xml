@@ -16,11 +16,42 @@
 		<param-value>true</param-value>
 	</init-param>
 	
+	<init-param>
+    	<param-name>com.sun.jersey.spi.container.ResourceFilters</param-name>
+    	<param-value>org.secnod.shiro.jersey.ShiroResourceFilterFactory</param-value>
+  	</init-param>
+	
     <load-on-startup>1</load-on-startup>
+    
   </servlet>
+  
   <servlet-mapping>
     <servlet-name>jersey-XMLExample-serlvet</servlet-name>
     <url-pattern>/v01/*</url-pattern>
   </servlet-mapping>
+  
+  <!-- filtering for shiro 
+  	<context-param>
+	  <param-name>shiroConfigLocations</param-name>
+	  <param-value>classpath:shiro.ini</param-value>
+	</context-param>
+	
+	<listener>
+	    <listener-class>org.apache.shiro.web.env.EnvironmentLoaderListener</listener-class>
+	</listener>
+	
+	<filter>
+	  <filter-name>ShiroFilter</filter-name>
+	  <filter-class>org.apache.shiro.web.servlet.ShiroFilter</filter-class>
+	</filter>
+	
+	<filter-mapping>
+	  <filter-name>ShiroFilter</filter-name>
+	  <url-pattern>/v01/rest/*</url-pattern>
+	  <dispatcher>REQUEST</dispatcher>
+	  <dispatcher>FORWARD</dispatcher>
+	  <dispatcher>INCLUDE</dispatcher>
+	  <dispatcher>ERROR</dispatcher>
+	</filter-mapping>-->
   
 </web-app>

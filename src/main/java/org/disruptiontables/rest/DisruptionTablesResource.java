@@ -11,9 +11,11 @@ import javax.ws.rs.core.MediaType;
 
 import org.disruptiontables.dao.Line;
 import org.disruptiontables.dao.WriterDao;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 
 
 @Path("/rest")
+@RequiresPermissions("protected:read")
 public class DisruptionTablesResource {
 
 	
