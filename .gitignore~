@@ -1,4 +1,6 @@
-WebContent
+#WebContent
+#target
 
-#no class files
-*.xml
+#no class files#
+*.class
+*.classpath
