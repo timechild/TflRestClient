@@ -1,5 +1,6 @@
 #WebContent
+#target
 
-#no class files
+#no class files#
 *.class
-#*.gitignore
+*.classpath
