@@ -1,6 +1,0 @@
-#WebContent
-target
-
-#no class files
-*.class
-.classpath

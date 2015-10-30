@@ -4,3 +4,7 @@ target
 #no class files
 .class
 .classpath
+.DS_Store
+
+*~
+
